@@ -73,10 +73,10 @@ class Net(nn.Module):
         batch_size = x.size(0)
         x = x.view(batch_size, 512, 28 ** 2)
 
-        inter = (torch.bmm(x, torch.transpose(x, 1, 2)) / 28 ** 2).view(batch_size, -1)
+        x = (torch.bmm(x, torch.transpose(x, 1, 2)) / 28 ** 2).view(batch_size, -1)
 
-        result1 = torch.nn.functional.normalize(torch.sign(inter) * torch.sqrt(torch.abs(inter) + 1e-10))
+        x = torch.nn.functional.normalize(torch.sign(x) * torch.sqrt(torch.abs(x) + 1e-10))
 
         # feature = feature.view(feature.size(0), -1)
-        feature = self.classifiers(result1)
-        return feature
+        x = self.classifiers(x)
+        return x

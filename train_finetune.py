@@ -14,7 +14,7 @@ import math
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
-trainset = data.MyDataset('/data/guijun/caffe-20160312/examples/compact_bilinear/train_images_shuffle.txt', transform=transforms.Compose([
+trainset = data.MyDataset('./CUB200/train_images_shuffle.txt', transform=transforms.Compose([
                                                 transforms.Resize(448),
                                                 transforms.RandomHorizontalFlip(),
                                                 transforms.CenterCrop(448),
@@ -24,7 +24,7 @@ trainset = data.MyDataset('/data/guijun/caffe-20160312/examples/compact_bilinear
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=16,
                                           shuffle=True, num_workers=4)
 
-testset = data.MyDataset('/data/guijun/caffe-20160312/examples/compact_bilinear/test_images_shuffle.txt', transform=transforms.Compose([
+testset = data.MyDataset('./CUB200/test_images_shuffle.txt', transform=transforms.Compose([
                                                 transforms.Resize(448),
                                                 transforms.CenterCrop(448),
                                                 transforms.ToTensor(),
@@ -55,21 +55,10 @@ else:
 
 
 criterion = nn.CrossEntropyLoss()
-
-# lr = 0.001
-# optimizer = optim.SGD([{'params': model.features.parameters(), 'lr': 0.1 * lr},
-#                         {'params': model.conv5_1.parameters(), 'lr': 0.1 * lr},
-#                        {'params': model.conv5_2.parameters(), 'lr': 0.1 * lr},
-#                        {'params': model.conv5_3.parameters(), 'lr': 0.1 * lr},
-#                         {'params': model.interFea1.parameters(), 'lr': lr},
-#                        {'params': model.interFea2.parameters(), 'lr': lr},
-#                        {'params': model.interFea3.parameters(), 'lr': lr},
-#                        {'params': model.classifiers.parameters(), 'lr': lr}], lr=0.001, momentum=0.9, weight_decay=1e-5)
 optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9, weight_decay=1e-5)
 
 def train(epoch):
     model.train()
-    correct = 0
     for batch_idx, (data, target) in enumerate(trainloader):
         data, target = data.cuda(), target.cuda()
         optimizer.zero_grad()
@@ -82,11 +71,8 @@ def train(epoch):
                 epoch, batch_idx * len(data), len(trainloader.dataset),
                        100. * batch_idx / len(trainloader), loss.data.item(),
                 optimizer.param_groups[0]['lr']))
-        pred = output.data.max(1, keepdim=True)[1]
-        correct += pred.eq(target.data.view_as(pred)).cpu().sum()
-    print('\nTrain set:  Accuracy: {}/{} ({:.2f}%)\n'.format(
-        correct, len(trainloader.dataset),
-        100.0 * float(correct) / len(trainloader.dataset)))
+
+
 
 def test():
     model.eval()
@@ -115,5 +101,5 @@ for epoch in range(1, 100):
     train(epoch)
     if epoch % 5 == 0:
         test()
-# torch.save(model.state_dict(), 'hbp_lastlayer.pth')
+
 torch.save(model.state_dict(), 'bcnn_alllayer.pth')

@@ -54,16 +54,14 @@ if pretrained:
 
 criterion = nn.CrossEntropyLoss()
 
-# model.features.requires_grad=False
 model.features.requires_grad = False
 
 
 optimizer = optim.SGD([
-                       {'params': model.classifiers.parameters(), 'lr': 1.0}], lr=0.001, momentum=0.9, weight_decay=1e-5)
+                       {'params': model.classifiers.parameters(), 'lr': 1.0}], lr=1, momentum=0.9, weight_decay=1e-5)
 
 def train(epoch):
     model.train()
-    correct = 0
     for batch_idx, (data, target) in enumerate(trainloader):
         data, target = data.cuda(), target.cuda()
         optimizer.zero_grad()
@@ -76,11 +74,7 @@ def train(epoch):
                 epoch, batch_idx * len(data), len(trainloader.dataset),
                        100. * batch_idx / len(trainloader), loss.data.item(),
                 optimizer.param_groups[0]['lr']))
-        pred = output.data.max(1, keepdim=True)[1]
-        correct += pred.eq(target.data.view_as(pred)).cpu().sum()
-    print('\nTrain set:  Accuracy: {}/{} ({:.2f}%)\n'.format(
-        correct, len(trainloader.dataset),
-        100.0 * float(correct) / len(trainloader.dataset)))
+
 
 def test():
     model.eval()
