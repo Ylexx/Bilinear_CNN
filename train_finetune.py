@@ -96,7 +96,7 @@ def adjust_learning_rate(optimizer, epoch):
             param_group['lr'] = param_group['lr'] * 0.1
 
 
-for epoch in range(1, 100):
+for epoch in range(1, 41):
     adjust_learning_rate(optimizer, epoch)
     train(epoch)
     if epoch % 5 == 0:
