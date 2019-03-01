@@ -21,11 +21,13 @@ Step 2.
 
 Step 3. 
 - python train_last.py
-- Train the fc layer only. It gives 77.30% test set accuracy.
+
+Train the fc layer only. It gives 77.30% test set accuracy.
     	
 
 
 Step 4. 
 - python train_finetune.py
-- Fine-tune all layers. It gives 84.40% test set accuracy.
+
+Fine-tune all layers. It gives 84.40% test set accuracy.
 	
