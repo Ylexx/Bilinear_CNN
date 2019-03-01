@@ -3,11 +3,11 @@
 
 A pytorch implementation of Bilinear CNNs for Fine-grained Visual Recognition(BCNN).
 
-##Requirements
-python 2.7
-pytorch 0.4.1
+## Requirements
+- python 2.7
+- pytorch 0.4.1
 
-##Train
+## Train
 
 Step 1. 
 Download the vgg16 pre-training parameters.
