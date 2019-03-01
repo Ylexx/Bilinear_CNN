@@ -19,15 +19,15 @@ Step 1.
 Step 2. 
 - Set the path to the dataset and vgg parameters in the code.
 
-Step 3. 
+Step 3. Train the fc layer only. It gives 77.30% test set accuracy.
 - python train_last.py
 
-Train the fc layer only. It gives 77.30% test set accuracy.
+
     	
 
 
-Step 4. 
+Step 4. Fine-tune all layers. It gives 84.40% test set accuracy.
 - python train_finetune.py
 
-Fine-tune all layers. It gives 84.40% test set accuracy.
+
 	
