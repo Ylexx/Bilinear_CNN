@@ -15,7 +15,7 @@ import math
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 trainset = data.MyDataset('./CUB200/train_images_shuffle.txt', transform=transforms.Compose([
-                                                transforms.Resize(448),
+                                                transforms.Resize(600),
                                                 transforms.RandomHorizontalFlip(),
                                                 transforms.CenterCrop(448),
                                                 transforms.ToTensor(),
@@ -25,12 +25,12 @@ trainloader = torch.utils.data.DataLoader(trainset, batch_size=16,
                                           shuffle=True, num_workers=4)
 
 testset = data.MyDataset('./CUB200/test_images_shuffle.txt', transform=transforms.Compose([
-                                                transforms.Resize(448),
+                                                transforms.Resize(600),
                                                 transforms.CenterCrop(448),
                                                 transforms.ToTensor(),
                                                 transforms.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225))
                                                 ]))
-testloader = torch.utils.data.DataLoader(testset, batch_size=8,
+testloader = torch.utils.data.DataLoader(testset, batch_size=16,
                                          shuffle=False, num_workers=4)
 cudnn.benchmark = True
 
