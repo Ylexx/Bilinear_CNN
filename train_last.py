@@ -15,7 +15,7 @@ import math
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 trainset = data.MyDataset('/data/guijun/caffe-20160312/examples/compact_bilinear/train_images_shuffle.txt', transform=transforms.Compose([
-                                                transforms.Resize(448),
+                                                transforms.Resize(600),
                                                 transforms.RandomHorizontalFlip(),
                                                 transforms.CenterCrop(448),
                                                 transforms.ToTensor(),
@@ -25,7 +25,7 @@ trainloader = torch.utils.data.DataLoader(trainset, batch_size=8,
                                           shuffle=True, num_workers=4)
 
 testset = data.MyDataset('/data/guijun/caffe-20160312/examples/compact_bilinear/test_images_shuffle.txt', transform=transforms.Compose([
-                                                transforms.Resize(448),
+                                                transforms.Resize(600),
                                                 transforms.CenterCrop(448),
                                                 transforms.ToTensor(),
                                                 transforms.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225))
